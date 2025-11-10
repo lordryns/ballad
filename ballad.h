@@ -4,7 +4,7 @@
 typedef struct {
   char *name;
   char *help;
-  void *action;
+  void (*action)();
 } BalladCommand;
 
 typedef struct {
@@ -40,11 +40,14 @@ void ballad_run(BalladCli cli) {
   if (cli.charc < 2) {
     ballad_print(cli);
   } else {
-    bool arg_exists;
+    bool arg_exists = false;
     for (int i = 0; i < cli.index; i++) {
       if (strcmp(ballad_get_arg(cli.charc, cli.charv, 1), cli.buffer[i].name) ==
           0) {
         arg_exists = true;
+        if (cli.buffer[i].action != NULL) {
+          cli.buffer[i].action();
+        }
       }
     }
 
