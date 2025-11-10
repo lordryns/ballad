@@ -24,7 +24,7 @@ char *ballad_get_arg(int charc, char **charv, int index);
 void ballad_invalid_command_print(char *name, BalladCli cli);
 #endif
 
-// #ifdef BALLAD_IMPLEMENTATION
+#ifdef BALLAD_IMPLEMENTATION
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -93,4 +93,4 @@ void ballad_invalid_command_print(char *name, BalladCli cli) {
   printf("Try '%s --help' for help\n\n", cli.charv[0]);
   printf("No such command '%s'\n", name);
 }
-// #endif
+#endif
