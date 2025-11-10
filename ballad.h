@@ -24,10 +24,11 @@ char *ballad_get_arg(int charc, char **charv, int index);
 void ballad_invalid_command_print(char *name, BalladCli cli);
 #endif
 
-#ifdef BALLAD_IMPLEMENTATION
+// #ifdef BALLAD_IMPLEMENTATION
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 BalladCli ballad_init(int charc, char **charv, char *help) {
   return (BalladCli){help,  (BalladCommand *)malloc(5 * sizeof(BalladCommand)),
@@ -41,10 +42,10 @@ void ballad_run(BalladCli cli) {
   } else {
     bool arg_exists;
     for (int i = 0; i < cli.index; i++) {
-      if (ballad_get_arg(cli.charc, cli.charv, 1) == cli.buffer[i].name) {
+      if (strcmp(ballad_get_arg(cli.charc, cli.charv, 1), cli.buffer[i].name) ==
+          0) {
         arg_exists = true;
       }
-      printf("%s\n", cli.buffer[i].name);
     }
 
     if (!arg_exists) {
@@ -92,4 +93,4 @@ void ballad_invalid_command_print(char *name, BalladCli cli) {
   printf("Try '%s --help' for help\n\n", cli.charv[0]);
   printf("No such command '%s'\n", name);
 }
-#endif
+// #endif
