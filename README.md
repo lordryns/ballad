@@ -12,7 +12,6 @@ Just clone the repo and move the ballad.h file to your codebase and that's it!
 
 Here is a basic example of Ballad in use 
 
-```c
 
 ```c 
 #include <stdio.h>
