@@ -4,7 +4,7 @@
 typedef struct {
   char *name;
   char *help;
-  void (*action)();
+  void (*action)(char *arg);
 } BalladCommand;
 
 typedef struct {
@@ -16,15 +16,23 @@ typedef struct {
   char **charv;
 } BalladCli;
 
+// cli function declarations
 BalladCli ballad_init(int charc, char **charv, char *help);
 void ballad_run(BalladCli cli);
 void ballad_add_command(BalladCli *cli, BalladCommand command);
 void ballad_print(BalladCli cli);
 char *ballad_get_arg(int charc, char **charv, int index);
 void ballad_invalid_command_print(char *name, BalladCli cli);
+
+// logging function declarations
+void ballad_log_success(char *message);
+void ballad_log_info(char *message);
+void ballad_log_warning(char *message);
+void ballad_log_danger(char *message);
 #endif
 
 #ifdef BALLAD_IMPLEMENTATION
+#include "color_codes.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -46,7 +54,7 @@ void ballad_run(BalladCli cli) {
           0) {
         arg_exists = true;
         if (cli.buffer[i].action != NULL) {
-          cli.buffer[i].action();
+          cli.buffer[i].action(ballad_get_arg(cli.charc, cli.charv, 2));
         }
       }
     }
@@ -96,4 +104,7 @@ void ballad_invalid_command_print(char *name, BalladCli cli) {
   printf("Try '%s --help' for help\n\n", cli.charv[0]);
   printf("No such command '%s'\n", name);
 }
+
+// logging functions definitions
+
 #endif
