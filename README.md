@@ -49,7 +49,7 @@ int main(int charc, char **charv) {
 ```
 
 
-**Full documentation coming soon!** 
+**For the full documentation, check: [Documentation](https://lordryns.github.io/project/ballad.html)** 
 
 > [!CAUTION]
 > Project is still under active development!
