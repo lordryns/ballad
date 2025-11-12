@@ -160,12 +160,15 @@ void ballad_run(BalladCli cli)
         ballad_print(cli);
     } else 
     {
+        bool exit_program = false;
         bool arg_exists = false;
+        char arg[1024] = {0};
         for (int i = 0; i < cli.index; i++) 
         {
-            if (strcmp(ballad_get_arg(cli.charc, cli.charv, 1), cli.buffer[i].name) ==0) 
+            if (strcmp(ballad_get_arg(cli.charc, cli.charv, 1), cli.buffer[i].name) == 0) 
             {
                 arg_exists = true;
+                strcpy(arg, ballad_get_arg(cli.charc, cli.charv, 2));
 
                 BalladFlagBox flag_box = cli.buffer[i].flag_box;
                 for (int i=0; i < flag_box.len; i++ ) 
@@ -173,23 +176,28 @@ void ballad_run(BalladCli cli)
                     BalladFlag flag = flag_box.flags[i];
                     for (int i=0; i < cli.charc; i++) 
                     {
-                        if (i > 2) 
+                        if (i > 1) 
                         {
                             char conv[3] = "";
                             sprintf(conv, "-%c", flag.short_name);
                             if (strcmp(cli.charv[i], conv) == 0) 
                             {
+                                strcpy(arg, ballad_get_arg(cli.charc, cli.charv, i + 1));
                                 printf("Flag found!\n");
                             } else {
-                                printf("Incorrect usage: flag provided but not defined: %s\n", cli.charv[i]);
+                                if (strncmp("-", cli.charv[i], 1) == 0) 
+                                {
+                                    printf("Incorrect usage: flag provided but not defined: %s\n", cli.charv[i]);
+                                    exit_program = true; 
+                                }
                                 break;
                             }
                         }
                     }	
                 }
 
-                if (cli.buffer[i].action != NULL) {
-                    cli.buffer[i].action(ballad_get_arg(cli.charc, cli.charv, 2));
+                if (cli.buffer[i].action != NULL && !exit_program) {
+                    cli.buffer[i].action(arg);
                 }
             }
         }
