@@ -179,8 +179,10 @@ void ballad_run(BalladCli cli)
                         if (i > 1) 
                         {
                             char conv[3] = "";
+                            char long_conv[20] = "";
                             sprintf(conv, "-%c", flag.short_name);
-                            if (strcmp(cli.charv[i], conv) == 0) 
+                            sprintf(long_conv, "--%s", flag.long_name);
+                            if (strcmp(cli.charv[i], conv) == 0 || strcmp(cli.charv[i], long_conv) == 0) 
                             {
                                 strcpy(arg, ballad_get_arg(cli.charc, cli.charv, i + 1));
                                 printf("Flag found!\n");
